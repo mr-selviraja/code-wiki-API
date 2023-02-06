@@ -48,6 +48,18 @@ const articleSchema = new mongoose.Schema({
 const Article = mongoose.model('Article', articleSchema);
 
 
+// GET request at root route("/")
+app.get("/articles", (req, res) => {
+  // find all articles
+  Article.find({}, (err, foundArticles) => {
+    if (!err)
+      res.send(`Available articles:\n${foundArticles}`);
+    else
+      res.send(`Got an Error:\n${err}`);
+  })
+})
+
+
 // Starting up the Server
 app.listen(PORT, () => {
   console.log(`Server is active and running on PORT: ${PORT}`);
