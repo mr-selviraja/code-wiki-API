@@ -48,7 +48,7 @@ const articleSchema = new mongoose.Schema({
 const Article = mongoose.model('Article', articleSchema);
 
 
-// GET request at root route("/")
+// GET request at "/articles" route
 app.get("/articles", (req, res) => {
   // find all articles
   Article.find({}, (err, foundArticles) => {
@@ -58,6 +58,8 @@ app.get("/articles", (req, res) => {
       res.send(`Got an Error:\n${err}`);
   })
 })
+
+// POST request at 
 
 
 // Starting up the Server
