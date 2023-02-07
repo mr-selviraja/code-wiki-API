@@ -118,6 +118,20 @@ app.route("/articles/:articleTitle")
     )
   })
 
+  // PATCH request at '/articles/:articleName' route(To modify some fields of the document)
+  .patch((req, res) => {
+    Article.updateOne(
+      {title: req.params.articleTitle},
+      {$set: req.body},
+      (err) => {
+        if (!err)
+          res.send(`Successfully updated the Article, with properties:\n ${req.body}`);
+        else
+          res.send(`Error while updating:\n${err}`);
+      }
+    )
+  })
+
 
 // Starting up the Server
 app.listen(PORT, () => {
