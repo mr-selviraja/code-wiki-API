@@ -100,7 +100,23 @@ app.route("/articles/:articleTitle")
       else
         res.send("Couldn't find the Article.");
     })
-  });
+  })
+
+  // PUT request at "/articles/:articleName" route(To modify an entire document)
+  .put((req, res) => {
+    Article.updateOne(
+      {title: req.params.articleTitle},
+      {
+        title: req.body.title,
+        content: req.body.content
+      },
+      (err) => {
+        if (!err) {
+          res.send(`Successfully updated the Article, with:\nTitle: ${req.body.title}\nContent: ${req.body.content}`)
+        }
+      }
+    )
+  })
 
 
 // Starting up the Server
