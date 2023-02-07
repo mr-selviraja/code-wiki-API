@@ -103,7 +103,7 @@ app.route("/articles/:articleTitle")
   })
 
   // PUT request at "/articles/:articleName" route(To modify an entire document)
-  .put((req, res) => {
+  .put(async (req, res) => {
     Article.updateOne(
       {title: req.params.articleTitle},
       {
