@@ -47,7 +47,10 @@ const articleSchema = new mongoose.Schema({
 // DB-model(collection)
 const Article = mongoose.model('Article', articleSchema);
 
+
+//--- Requests at the route "/articles"
 app.route("/articles")
+
   // GET request at "/articles" route
   .get((req, res) => {
     // find all articles
@@ -66,7 +69,6 @@ app.route("/articles")
       title: req.body.title,
       content: req.body.content
     })
-
     // insert article
     newArticle.save((err) => {
       if (!err)
@@ -83,6 +85,20 @@ app.route("/articles")
         res.send('Successfully deleted all the documents in the collection!');
       else
         res.send(`Error while deleting all the documents: ${err}`);
+    })
+  });
+
+
+//--- Requests at the route "/articles/article-name"
+app.route("/articles/:articleTitle")
+
+  // GET request at "/articles/:articleName" route
+  .get((req, res) => {
+    Article.findOne({title: req.params.articleTitle}, (err, foundArticle) => {
+      if (foundArticle)
+        res.send(`Found the article:\n${foundArticle}`);
+      else
+        res.send("Couldn't find the Article.");
     })
   });
 
