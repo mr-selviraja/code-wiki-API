@@ -47,46 +47,44 @@ const articleSchema = new mongoose.Schema({
 // DB-model(collection)
 const Article = mongoose.model('Article', articleSchema);
 
-
-// GET request at "/articles" route
-app.get("/articles", (req, res) => {
-  // find all articles
-  Article.find({}, (err, foundArticles) => {
-    if (!err)
-      res.send(`Available articles:\n${foundArticles}`);
-    else
-      res.send(`Got an Error:\n${err}`);
-  })
-})
-
-
-// POST request at "/articles" route
-app.post("/articles", (req, res) => {
-  // create article
-  const newArticle = new Article( {
-    title: req.body.title,
-    content: req.body.content
+app.route("/articles")
+  // GET request at "/articles" route
+  .get((req, res) => {
+    // find all articles
+    Article.find({}, (err, foundArticles) => {
+      if (!err)
+        res.send(`Available articles:\n${foundArticles}`);
+      else
+        res.send(`Got an Error:\n${err}`);
+    })
   })
 
-  // insert article
-  newArticle.save((err) => {
-    if (!err)
-      res.send(`Successfully inserted article with\ntitle: ${newArticle.title}\ncontent: ${newArticle.content}.`);
-    else
-      res.send(`Error while inserting the document:\n${err}`);
+  // POST request at "/articles" route
+  .post((req, res) => {
+    // create article
+    const newArticle = new Article( {
+      title: req.body.title,
+      content: req.body.content
+    })
+
+    // insert article
+    newArticle.save((err) => {
+      if (!err)
+        res.send(`Successfully inserted article with\ntitle: ${newArticle.title}\ncontent: ${newArticle.content}.`);
+      else
+        res.send(`Error while inserting the document:\n${err}`);
+    });
+  })
+
+  // DELETE request at "/articles" route
+  .delete((req, res) => {
+    Article.deleteMany({}, (err) => {
+      if (!err)
+        res.send('Successfully deleted all the documents in the collection!');
+      else
+        res.send(`Error while deleting all the documents: ${err}`);
+    })
   });
-})
-
-
-// DELETE request at "/articles" route
-app.delete("/articles", (req, res) => {
-  Article.deleteMany({}, (err) => {
-    if (!err)
-      res.send('Successfully deleted all the documents in the collection!');
-    else
-      res.send(`Error while deleting all the documents: ${err}`);
-  })
-});
 
 
 // Starting up the Server
