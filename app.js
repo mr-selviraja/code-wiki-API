@@ -59,7 +59,23 @@ app.get("/articles", (req, res) => {
   })
 })
 
-// POST request at 
+
+// POST request at "/articles" route
+app.post("/articles", (req, res) => {
+  // create article
+  const newArticle = new Article( {
+    title: req.body.title,
+    content: req.body.content
+  })
+
+  // insert article
+  newArticle.save((err) => {
+    if (!err)
+      res.send(`Successfully inserted article with\ntitle: ${newArticle.title}\ncontent: ${newArticle.content}.`);
+    else
+      res.send(`Error while inserting the document:\n${err}`);
+  });
+})
 
 
 // Starting up the Server
