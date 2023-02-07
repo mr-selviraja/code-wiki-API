@@ -78,6 +78,17 @@ app.post("/articles", (req, res) => {
 })
 
 
+// DELETE request at "/articles" route
+app.delete("/articles", (req, res) => {
+  Article.deleteMany({}, (err) => {
+    if (!err)
+      res.send('Successfully deleted all the documents in the collection!');
+    else
+      res.send(`Error while deleting all the documents: ${err}`);
+  })
+});
+
+
 // Starting up the Server
 app.listen(PORT, () => {
   console.log(`Server is active and running on PORT: ${PORT}`);
