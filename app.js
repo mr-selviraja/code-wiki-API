@@ -132,6 +132,19 @@ app.route("/articles/:articleTitle")
     )
   })
 
+  // DELETE request at '/articles/:articleName' route
+  .delete((req, res) => {
+    Article.deleteOne(
+      {title: req.params.articleTitle},
+      (err) => {
+        if (!err)
+          res.send(`Successfully deleted the Article.`);
+        else
+          res.send(`Error while deleting: ${err}`);
+      }
+    )
+  });
+
 
 // Starting up the Server
 app.listen(PORT, () => {
